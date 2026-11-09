@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CScell | Assistência técnica de celulares</title>
+  <meta name="description" content="CScell: conserto de celulares com diagnóstico gratuito, orçamento antes do reparo e garantia de 90 dias. Monte sua pré-ordem de serviço e envie pelo WhatsApp.">
+  <meta name="theme-color" content="#1f4e73">
+  <meta property="og:title" content="CScell | Assistência técnica de celulares">
+  <meta property="og:description" content="Diagnóstico gratuito, orçamento antes do reparo e garantia de 90 dias.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231f4e73'/%3E%3Crect x='7' y='13' width='18' height='6' fill='%23e59a2c'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="brand" href="#inicio" aria-label="CScell, voltar ao início">
+        <span class="brand__tape" aria-hidden="true"></span>
+        <span class="brand__name">CScell</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu">
+        <span class="menu-toggle__bars" aria-hidden="true"></span>
+        <span class="menu-toggle__label">Menu</span>
+      </button>
+      <nav id="menu" class="menu" aria-label="Menu principal">
+        <a href="#servicos">Serviços</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#garantia">Garantia</a>
+        <a href="#duvidas">Dúvidas</a>
+        <a href="#contato">Contato</a>
+        <a class="menu__cta" data-wa href="#contato">Chamar no WhatsApp</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <!-- HERO + ORÇAMENTO -->
+    <section class="bench" id="inicio" aria-labelledby="titulo">
+      <div class="wrap bench__grid">
+        <div class="bench__intro">
+          <h1 id="titulo" class="display">Conserto de celular com diagnóstico na hora e preço antes do reparo.</h1>
+          <p class="lead">Escolha a marca e o defeito para montar sua pré-ordem de serviço e mandar pelo WhatsApp. Nada é feito sem a sua aprovação.</p>
+
+          <form class="picker" id="orcamento" novalidate>
+            <fieldset class="picker__group">
+              <legend>Marca do aparelho</legend>
+              <div class="chips" id="brand-chips"></div>
+            </fieldset>
+
+            <fieldset class="picker__group">
+              <legend>O que está acontecendo?</legend>
+              <div class="chips" id="issue-chips"></div>
+            </fieldset>
+
+            <div class="picker__row">
+              <label class="field">
+                <span class="field__label">Modelo <span class="field__hint">(opcional)</span></span>
+                <input type="text" id="model" name="model" autocomplete="off" maxlength="40" placeholder="Ex.: Galaxy A54, iPhone 12">
+              </label>
+              <label class="field">
+                <span class="field__label">Seu nome <span class="field__hint">(opcional)</span></span>
+                <input type="text" id="name" name="name" autocomplete="given-name" maxlength="40" placeholder="Como podemos te chamar">
+              </label>
+            </div>
+          </form>
+        </div>
+
+        <div class="printer" aria-live="polite">
+          <div class="printer__head" aria-hidden="true">
+            <span class="printer__led"></span>
+            <span class="printer__slot"></span>
+          </div>
+          <div class="printer__paper">
+            <article class="ticket" id="ticket" aria-label="Pré-ordem de serviço">
+              <header class="ticket__head">
+                <strong>CScell</strong>
+                <span>Assistência técnica</span>
+              </header>
+              <hr class="ticket__cut">
+              <p class="ticket__title">Pré-ordem de serviço</p>
+              <dl class="ticket__meta">
+                <div><dt>Nº</dt><dd id="t-protocol">CS-00000</dd></div>
+                <div><dt>Emitida</dt><dd id="t-date">--/--/---- --:--</dd></div>
+              </dl>
+              <hr class="ticket__cut">
+              <dl class="ticket__lines">
+                <div data-line="device"><dt>Aparelho</dt><dd id="t-device">Escolha a marca</dd></div>
+                <div data-line="issue"><dt>Defeito</dt><dd id="t-issue">Escolha o defeito</dd></div>
+                <div data-line="time"><dt>Prazo médio</dt><dd id="t-time">-</dd></div>
+                <div><dt>Diagnóstico</dt><dd>Gratuito</dd></div>
+                <div><dt>Garantia</dt><dd><span data-cfg="garantiaDias">90</span> dias</dd></div>
+              </dl>
+              <hr class="ticket__cut">
+              <p class="ticket__note" id="t-note">O valor final é passado depois da avaliação, antes de qualquer reparo.</p>
+              <div class="ticket__barcode" aria-hidden="true" id="t-barcode"></div>
+              <button class="btn btn--ink ticket__send" type="button" id="send-order" disabled>Enviar pré-ordem pelo WhatsApp</button>
+              <p class="ticket__status" id="t-status" role="status"></p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAIXA DE COMPROMISSOS -->
+    <section class="pledges" aria-label="Compromissos">
+      <ul class="wrap pledges__list">
+        <li><strong>Diagnóstico gratuito</strong><span>Você sabe o defeito antes de decidir.</span></li>
+        <li><strong>Reparo à vista do cliente</strong><span>Muitos serviços são feitos enquanto você espera.</span></li>
+        <li><strong>Peças com procedência</strong><span>Você escolhe entre as opções disponíveis, com preço de cada uma.</span></li>
+        <li><strong>Seus dados protegidos</strong><span>Não acessamos fotos, conversas ou contas.</span></li>
+      </ul>
+    </section>
+
+    <!-- SERVIÇOS -->
+    <section class="section services" id="servicos" aria-labelledby="servicos-titulo">
+      <div class="wrap">
+        <div class="section__head">
+          <h2 id="servicos-titulo" class="heading">Serviços</h2>
+          <p class="section__intro">Prazos médios para aparelhos com peça em estoque. Toque em um serviço para ver o que está incluído.</p>
+        </div>
+        <div class="service-table" id="service-list" role="list"></div>
+      </div>
+    </section>
+
+    <!-- COMO FUNCIONA -->
+    <section class="section process" id="como-funciona" aria-labelledby="processo-titulo">
+      <div class="wrap">
+        <div class="section__head">
+          <h2 id="processo-titulo" class="heading">Como funciona</h2>
+          <p class="section__intro">Cinco etapas, com aviso a cada mudança de status. Você acompanha tudo pelo WhatsApp.</p>
+        </div>
+        <ol class="track">
+          <li class="track__step">
+            <span class="track__node" aria-hidden="true">1</span>
+            <h3>Você descreve o problema</h3>
+            <p>Pelo WhatsApp ou no balcão. Já registramos uma pré-ordem com o seu aparelho.</p>
+          </li>
+          <li class="track__step">
+            <span class="track__node" aria-hidden="true">2</span>
+            <h3>Diagnóstico</h3>
+            <p>Testamos tela, bateria, carga, câmeras, áudio e sinal. Sem custo.</p>
+          </li>
+          <li class="track__step">
+            <span class="track__node" aria-hidden="true">3</span>
+            <h3>Orçamento e aprovação</h3>
+            <p>Você recebe o valor e o prazo por escrito. Só seguimos com o seu “pode fazer”.</p>
+          </li>
+          <li class="track__step">
+            <span class="track__node" aria-hidden="true">4</span>
+            <h3>Reparo e testes</h3>
+            <p>Depois da troca, o aparelho passa pelos mesmos testes do diagnóstico.</p>
+          </li>
+          <li class="track__step">
+            <span class="track__node" aria-hidden="true">5</span>
+            <h3>Retirada com garantia</h3>
+            <p>Você confere o aparelho funcionando e leva o termo de garantia.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- GARANTIA -->
+    <section class="warranty" id="garantia" aria-labelledby="garantia-titulo">
+      <div class="wrap warranty__grid">
+        <p class="warranty__big" aria-hidden="true"><span data-cfg="garantiaDias">90</span><small>dias</small></p>
+        <div class="warranty__copy">
+          <h2 id="garantia-titulo" class="heading">Garantia de <span data-cfg="garantiaDias">90</span> dias na peça e no serviço</h2>
+          <p>Todo reparo sai com termo de garantia impresso, com a peça trocada, a data e o número da ordem de serviço. Se o mesmo defeito voltar dentro do prazo, refazemos sem custo.</p>
+          <p class="warranty__fine">A garantia não cobre quedas, contato com líquido ou abertura do aparelho por terceiros depois do reparo.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BALCÃO / ACESSÓRIOS -->
+    <section class="section counter" aria-labelledby="balcao-titulo">
+      <div class="wrap counter__grid">
+        <div>
+          <h2 id="balcao-titulo" class="heading">No balcão também tem</h2>
+          <p class="section__intro">Acessórios para o dia a dia, com aplicação de película na hora.</p>
+        </div>
+        <ul class="counter__list">
+          <li><strong>Películas</strong><span>Vidro, privacidade e hidrogel. Aplicação inclusa.</span></li>
+          <li><strong>Capas</strong><span>Proteção para os modelos mais vendidos.</span></li>
+          <li><strong>Carregadores e cabos</strong><span>USB-C, Lightning e carregamento rápido.</span></li>
+          <li><strong>Fones e caixas de som</strong><span>Com fio e Bluetooth.</span></li>
+          <li><strong>Suportes</strong><span>Para carro, mesa e bicicleta.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- DÚVIDAS -->
+    <section class="section faq" id="duvidas" aria-labelledby="duvidas-titulo">
+      <div class="wrap faq__grid">
+        <div class="section__head section__head--stack">
+          <h2 id="duvidas-titulo" class="heading">Dúvidas frequentes</h2>
+          <p class="section__intro">Não achou a resposta? <a data-wa href="#contato">Pergunte pelo WhatsApp</a>.</p>
+        </div>
+        <div class="faq__list">
+          <details>
+            <summary>Vou perder minhas fotos e conversas?</summary>
+            <p>Na maioria dos reparos, como tela, bateria e conector, os dados continuam no aparelho. Quando o serviço envolve o sistema, avisamos antes e ajudamos a fazer o backup.</p>
+          </details>
+          <details>
+            <summary>Preciso pagar pelo orçamento?</summary>
+            <p>Não. O diagnóstico é gratuito e você só paga se aprovar o reparo.</p>
+          </details>
+          <details>
+            <summary>Quanto tempo demora?</summary>
+            <p>Troca de tela, bateria e conector costumam sair no mesmo dia quando a peça está em estoque. Reparos de placa e aparelhos molhados levam de 1 a 5 dias úteis. O prazo exato vem junto com o orçamento.</p>
+          </details>
+          <details>
+            <summary>Preciso deixar a senha do celular?</summary>
+            <p>Só quando é necessário para testar o funcionamento depois do reparo. Se preferir, os testes podem ser feitos na sua frente, na retirada.</p>
+          </details>
+          <details>
+            <summary>Quais formas de pagamento vocês aceitam?</summary>
+            <p>Pix, dinheiro e cartões de débito e crédito, com parcelamento no crédito.</p>
+          </details>
+          <details>
+            <summary>Atendem aparelhos de qualquer marca?</summary>
+            <p>Sim. Trabalhamos com Apple, Samsung, Motorola, Xiaomi, Realme e outras marcas. Se a peça do seu modelo não estiver em estoque, encomendamos e informamos o prazo.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTATO -->
+    <section class="contact" id="contato" aria-labelledby="contato-titulo">
+      <div class="wrap contact__grid">
+        <div>
+          <h2 id="contato-titulo" class="display display--contact">Traga seu celular ou chame a gente agora.</h2>
+          <a class="btn btn--tape" data-wa href="#contato">Chamar no WhatsApp</a>
+        </div>
+        <dl class="contact__info">
+          <div>
+            <dt>Endereço</dt>
+            <dd><span data-cfg="endereco">Rua Exemplo, 123, Centro</span><br><span data-cfg="cidade">Sua cidade, UF</span></dd>
+          </div>
+          <div>
+            <dt>Horário</dt>
+            <dd data-cfg-list="horario">Segunda a sexta, 9h às 18h<br>Sábado, 9h às 13h</dd>
+          </div>
+          <div>
+            <dt>WhatsApp</dt>
+            <dd><a data-wa data-cfg="telefone" href="#contato">(00) 00000-0000</a></dd>
+          </div>
+          <div>
+            <dt>Instagram</dt>
+            <dd><a data-ig data-cfg="instagram" href="#contato" target="_blank" rel="noopener">@cscell</a></dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <span class="brand brand--footer"><span class="brand__tape" aria-hidden="true"></span><span class="brand__name">CScell</span></span>
+      <p>Assistência técnica de celulares. <span id="year">2026</span>, todos os direitos reservados.</p>
+      <a href="#inicio">Voltar ao início</a>
+    </div>
+  </footer>
+
+  <a class="wa-float" data-wa href="#contato" aria-label="Chamar a CScell no WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2a9.7 9.7 0 0 0-8.4 14.6L2.3 21.7l5-1.3A9.7 9.7 0 1 0 12 2.2Zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 19.9Zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.8.9c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.1 0-.3 0-.4l-.7-1.8c-.2-.5-.4-.4-.5-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.4-.3Z"/></svg>
+  </a>
+
+  <script src="./script.js" defer></script>
+</body>
+</html>
