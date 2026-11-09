@@ -179,6 +179,7 @@ function buildPicker() {
   });
   $("#name").addEventListener("input", (e) => {
     order.name = e.target.value.trim();
+    updateSendLink();
   });
   $("#orcamento").addEventListener("submit", (e) => e.preventDefault());
 }
@@ -205,9 +206,30 @@ function renderTicket(changed = []) {
   setLine("#t-device", device, "Escolha a marca");
   setLine("#t-issue", service && service.name, "Escolha o defeito");
   setLine("#t-time", service && service.time, "-");
-  $("#send-order").disabled = !(order.brand && order.issue);
-  $("#t-status").textContent = order.brand && order.issue ? "" : "Escolha a marca e o defeito para enviar.";
+  updateSendLink();
   flash(changed);
+}
+
+/* O envio é um link comum (e não window.open) para não ser barrado por bloqueadores de pop-up. */
+function updateSendLink() {
+  const link = $("#send-order");
+  const service = SERVICES.find((s) => s.id === order.issue);
+  const ready = Boolean(order.brand && service);
+  link.setAttribute("aria-disabled", String(!ready));
+  $("#t-status").textContent = ready ? "" : "Escolha a marca e o defeito para enviar.";
+  if (!ready) {
+    link.removeAttribute("href");
+    return;
+  }
+  const device = [order.brand, order.model].filter(Boolean).join(" ");
+  const lines = [
+    `Olá, ${CONFIG.nome}!${order.name ? ` Sou ${order.name}.` : ""}`,
+    `Pré-ordem ${protocol}`,
+    `Aparelho: ${device}`,
+    `Defeito: ${service.name}`,
+    "Gostaria de um orçamento.",
+  ];
+  link.href = waLink(lines.join("\n"));
 }
 
 function buildBarcode() {
@@ -235,17 +257,9 @@ function setupTicket() {
   if (!reduceMotion) $("#ticket").classList.add("is-printing");
 
   $("#send-order").addEventListener("click", () => {
-    const service = SERVICES.find((s) => s.id === order.issue);
-    const device = [order.brand, order.model].filter(Boolean).join(" ");
-    const lines = [
-      `Olá, ${CONFIG.nome}!${order.name ? ` Sou ${order.name}.` : ""}`,
-      `Pré-ordem ${protocol}`,
-      `Aparelho: ${device}`,
-      `Defeito: ${service.name}`,
-      "Gostaria de um orçamento.",
-    ];
-    window.open(waLink(lines.join("\n")), "_blank", "noopener");
-    $("#t-status").textContent = `Pré-ordem ${protocol} aberta no WhatsApp. É só tocar em enviar.`;
+    if (order.brand && order.issue) {
+      $("#t-status").textContent = `Pré-ordem ${protocol} aberta no WhatsApp. É só tocar em enviar.`;
+    }
   });
 }
 

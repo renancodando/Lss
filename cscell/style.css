@@ -56,6 +56,16 @@ body {
 }
 
 img, svg { display: block; max-width: 100%; }
+
+/* faixa da área segura em celulares com notch, na cor do topo */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 51;
+  background: var(--mat);
+}
 a { color: inherit; }
 h1, h2, h3, p, ul, ol, dl, dd { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
@@ -130,7 +140,7 @@ ul, ol { padding: 0; list-style: none; }
 .btn:active { transform: translateY(1px); }
 .btn--ink { background: var(--ink); color: var(--thermal); }
 .btn--ink:hover { background: var(--mat-ink); }
-.btn--ink:disabled { background: #b9c2c9; color: #f2f4f5; cursor: not-allowed; }
+.btn--ink[aria-disabled="true"] { background: #b9c2c9; color: #f2f4f5; cursor: not-allowed; }
 .btn--tape {
   background: var(--kapton);
   color: var(--ink);
@@ -141,7 +151,7 @@ ul, ol { padding: 0; list-style: none; }
 /* ---------- Topo ---------- */
 .topbar {
   position: sticky;
-  top: 0;
+  top: env(safe-area-inset-top, 0px);
   z-index: 50;
   background: var(--mat);
   color: var(--on-mat);
